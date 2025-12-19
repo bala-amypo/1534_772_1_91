@@ -1,13 +1,25 @@
-package com.example.demo.service;
+import java.util.Optional;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.model.Ticket;
+import com.example.demo.repository.TicketRepository;
 
-public interface TicketService {
+@Service
+public class TicketService {
 
-    Ticket createTicket(Ticket ticket);
+    private final TicketRepository ticketRepository;
 
-    Ticket getTicket(Long id);
+    public TicketService(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
 
-    List<Ticket> getAllTickets();
+    public Ticket saveTicket(Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+
+    public Ticket getTicketById(Long id) {
+        return ticketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+    }
 }
