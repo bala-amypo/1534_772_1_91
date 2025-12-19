@@ -25,7 +25,7 @@ public class CategorizationLogController {
 
     @GetMapping("/ticket/{ticketId}")
     public List<CategorizationLog> getLogsByTicket(@PathVariable Long ticketId) {
-        Ticket ticket = ticketService.getTicketById(ticketId);
+        Ticket ticket = ticketService.getTicket(ticketId);
         return logService.getLogsForTicket(ticket);
     }
 }
