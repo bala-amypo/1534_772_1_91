@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -27,9 +25,6 @@ public class Ticket {
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<CategorizationLog> logs;
-
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
@@ -40,7 +35,6 @@ public class Ticket {
 
     public Ticket() {}
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -67,7 +61,4 @@ public class Ticket {
     }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    public List<CategorizationLog> getLogs() { return logs; }
-    public void setLogs(List<CategorizationLog> logs) { this.logs = logs; }
 }
