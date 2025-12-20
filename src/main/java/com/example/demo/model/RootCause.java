@@ -17,7 +17,7 @@ public class RootCause {
 
     @NotBlank(message = "Root cause name is mandatory")
     @Column(nullable = false, unique = true)
-    private String name; // Root cause name
+    private String name;
 
     @Size(max = 2000, message = "Description cannot exceed 2000 characters")
     @Column(length = 2000)
@@ -28,14 +28,12 @@ public class RootCause {
     private List<Ticket> tickets;
 
     public RootCause() {}
-
     public RootCause(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

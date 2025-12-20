@@ -46,9 +46,7 @@ public class Ticket {
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
-        if (urgencyLevel == null) {
-            urgencyLevel = "LOW";
-        }
+        if (urgencyLevel == null) urgencyLevel = "LOW";
     }
 
     public Ticket() {}

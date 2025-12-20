@@ -2,11 +2,7 @@ package com.example.demo.model;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -24,7 +20,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "assignedCategory")
     @JsonIgnore
     private List<Ticket> tickets;
 
@@ -36,43 +32,21 @@ public class Category {
     @JsonIgnore
     private List<CategorizationLog> logs;
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public List<CategorizationRule> getRules() {
-        return rules;
-    }
-    public void setRules(List<CategorizationRule> rules) {
-        this.rules = rules;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public List<CategorizationLog> getLogs() {
-        return logs;
-    }
-    public void setLogs(List<CategorizationLog> logs) {
-        this.logs = logs;
-    }
+    public List<Ticket> getTickets() { return tickets; }
+    public void setTickets(List<Ticket> tickets) { this.tickets = tickets; }
+
+    public List<CategorizationRule> getRules() { return rules; }
+    public void setRules(List<CategorizationRule> rules) { this.rules = rules; }
+
+    public List<CategorizationLog> getLogs() { return logs; }
+    public void setLogs(List<CategorizationLog> logs) { this.logs = logs; }
 }
