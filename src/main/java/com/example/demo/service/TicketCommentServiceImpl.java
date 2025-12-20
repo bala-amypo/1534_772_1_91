@@ -26,10 +26,10 @@ public class TicketCommentServiceImpl implements TicketCommentService {
 
     @Override
     public TicketComment getComment(Long id) {
-        repository.findById(id)
-        .orElseThrow(() ->
-                new ResourceNotFoundException("Resource not found with id: " + id));
-}
+        return commentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("TicketComment not found with id: " + id));
+    }
 
     @Override
     public List<TicketComment> getCommentsByTicket(Ticket ticket) {
