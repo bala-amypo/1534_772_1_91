@@ -24,9 +24,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
     public User getUser(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
+        repository.findById(id)
+        .orElseThrow(() ->
+                new ResourceNotFoundException("Resource not found with id: " + id));
+}
     public User findByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
+    repository.findById(id)
+        .orElseThrow(() ->
+                new ResourceNotFoundException("Resource not found with id: " + id));
+}
 }
