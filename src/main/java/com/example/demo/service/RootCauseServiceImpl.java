@@ -25,8 +25,10 @@ public class RootCauseServiceImpl implements RootCauseService {
 
     @Override
     public RootCause getRootCause(Long id) {
-    repository.findById(id).orElseThrow(() ->new ResourceNotFoundException("Resource not found with id: " + id));
-}
+        return rootCauseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("RootCause not found with id: " + id));
+    }
 
     @Override
     public List<RootCause> getAllRootCauses() {
