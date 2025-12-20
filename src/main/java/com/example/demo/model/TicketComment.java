@@ -3,6 +3,9 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class TicketComment {
@@ -13,8 +16,10 @@ public class TicketComment {
 
     @ManyToOne
     @JoinColumn(name = "ticket_id", nullable = false)
+    @JsonIgnore
     private Ticket ticket;
 
+    @NotBlank(message = "Comment text is mandatory")
     private String comment;
 
     private String createdBy;
