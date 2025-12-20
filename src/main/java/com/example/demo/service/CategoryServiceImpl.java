@@ -20,8 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public Category getCategory(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-    }
+        repository.findById(id).orElseThrow(() ->new ResourceNotFoundException("Resource not found with id: " + id));
+}
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
