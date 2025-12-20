@@ -1,28 +1,45 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="users",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-
-
+@Table(name="users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
+
+   @NotBlank(message = "Full name is mandatory")
+   @Size(min = 3, max = 50)
    private String fullName;
+
+   @Email(message = "Invalid email format")
+   @NotBlank(message = "Email is mandatory")
    private String email;
+
+   @NotBlank(message = "Password is mandatory")
+   @Size(min = 6, message = "Password must be at least 6 characters")
    private String password;
+
    private String role;
    private LocalDateTime createdAt;
+
+   // Relationships
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<Ticket> tickets;
+
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<TicketComment> comments;
 
    @PrePersist
    public void prePersist(){
@@ -30,53 +47,29 @@ public class User {
       if(role==null) role = "USER";
    }
 
-   public Long getId() {
-      return id;
-   }
+   public Long getId() { return id; }
+   public void setId(Long id) { this.id = id; }
 
-   public void setId(Long id) {
-      this.id = id;
-   }
+   public String getFullName() { return fullName; }
+   public void setFullName(String fullName) { this.fullName = fullName; }
 
-   public String getFullName() {
-      return fullName;
-   }
+   public String getEmail() { return email; }
+   public void setEmail(String email) { this.email = email; }
 
-   public void setFullName(String fullName) {
-      this.fullName = fullName;
-   }
+   public String getPassword() { return password; }
+   public void setPassword(String password) { this.password = password; }
 
-   public String getEmail() {
-      return email;
-   }
+   public String getRole() { return role; }
+   public void setRole(String role) { this.role = role; }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+   public LocalDateTime getCreatedAt() { return createdAt; }
+   public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-   public String getPassword() {
-      return password;
-   }
+   public List<Ticket> getTickets() { return tickets; }
+   public void setTickets(List<Ticket> tickets) { this.tickets = tickets; }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
-
-   public String getRole() {
-      return role;
-   }
-
-   public void setRole(String role) {
-      this.role = role;
-   }
-
-   public LocalDateTime getCreatedAt() {
-      return createdAt;
-   }
-
-   public void setCreatedAt(LocalDateTime createdAt) {
-      this.createdAt = createdAt;
-   }
+   public List<TicketComment> getComments() { return comments; }
+   public void setComments(List<TicketComment> comments) { this.comments = comments; }
 
    public User(Long id, String fullName, String email, String password, String role, LocalDateTime createdAt) {
       this.id = id;
@@ -87,6 +80,5 @@ public class User {
       this.createdAt = createdAt;
    }
 
-   public User() {
-   }
+   public User() { }
 }
