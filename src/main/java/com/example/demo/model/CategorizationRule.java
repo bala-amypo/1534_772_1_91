@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CategorizationRule {
@@ -12,6 +13,7 @@ public class CategorizationRule {
     private String keyword;
 
     @ManyToOne
+    @JsonIgnore
     private Category category;
 
     public CategorizationRule() {}

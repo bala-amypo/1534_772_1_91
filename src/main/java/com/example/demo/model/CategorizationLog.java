@@ -3,6 +3,7 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CategorizationLog {
@@ -12,6 +13,7 @@ public class CategorizationLog {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Ticket ticket;
 
     @ManyToOne
@@ -62,5 +64,9 @@ public class CategorizationLog {
 
     public LocalDateTime getCategorizedAt() {
         return categorizedAt;
+    }
+
+    public void setCategorizedAt(LocalDateTime categorizedAt) {
+        this.categorizedAt = categorizedAt;
     }
 }
