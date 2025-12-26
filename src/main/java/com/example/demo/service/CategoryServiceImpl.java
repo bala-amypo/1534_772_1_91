@@ -1,9 +1,7 @@
 package com.example.demo.service.impl;
-import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Category;
 import com.example.demo.repository.CategoryRepository;
-@Service
 public class CategoryServiceImpl {
 
     private final CategoryRepository categoryRepository;

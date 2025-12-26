@@ -1,6 +1,4 @@
 package com.example.demo.util;
-
-import com.example.demo.model.Category;
 import com.example.demo.model.CategorizationLog;
 import com.example.demo.model.CategorizationRule;
 import com.example.demo.model.Ticket;
@@ -8,7 +6,6 @@ import com.example.demo.model.UrgencyPolicy;
 import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.List;
-@Component
 public class TicketCategorizationEngine {
 
     public void categorize(

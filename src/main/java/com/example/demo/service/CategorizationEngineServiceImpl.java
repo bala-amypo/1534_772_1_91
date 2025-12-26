@@ -1,5 +1,4 @@
 package com.example.demo.service.impl;
-import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.CategorizationLog;
 import com.example.demo.model.Ticket;
@@ -12,7 +11,6 @@ import com.example.demo.util.TicketCategorizationEngine;
 
 import java.util.ArrayList;
 import java.util.List;
-@Service
 public class CategorizationEngineServiceImpl {
 
     private final TicketRepository ticketRepository;
