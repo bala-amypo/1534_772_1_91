@@ -1,51 +1,42 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.RootCause;
 import com.example.demo.repository.RootCauseRepository;
 import com.example.demo.service.RootCauseService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RootCauseServiceImpl implements RootCauseService {
 
-    private final RootCauseRepository rootCauseRepository;
+    private final RootCauseRepository repo;
 
-    public RootCauseServiceImpl(RootCauseRepository rootCauseRepository) {
-        this.rootCauseRepository = rootCauseRepository;
+    public RootCauseServiceImpl(RootCauseRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public RootCause createRootCause(RootCause rootCause) {
-        return rootCauseRepository.save(rootCause);
+        return repo.save(rootCause);
     }
 
-    @Override
     public RootCause getRootCause(Long id) {
-        return rootCauseRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("RootCause not found with id: " + id));
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Root cause not found"));
     }
 
-    @Override
     public List<RootCause> getAllRootCauses() {
-        return rootCauseRepository.findAll();
+        return repo.findAll();
     }
 
-    @Override
-    public RootCause updateRootCause(Long id, RootCause rootCause) {
-        RootCause existing = getRootCause(id);
-        existing.setName(rootCause.getName());
-        existing.setDescription(rootCause.getDescription());
-        return rootCauseRepository.save(existing);
+    public List<RootCause> getByCategory(Long categoryId) {
+        return repo.findByCategory_Id(categoryId);
     }
 
-    @Override
     public void deleteRootCause(Long id) {
-        RootCause existing = getRootCause(id);
-        rootCauseRepository.delete(existing);
+        if (!repo.existsById(id))
+            throw new ResourceNotFoundException("Root cause not found");
+        repo.deleteById(id);
     }
 }

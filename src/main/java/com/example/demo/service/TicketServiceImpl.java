@@ -1,37 +1,42 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Ticket;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    private final TicketRepository ticketRepository;
+    private final TicketRepository repo;
 
-    public TicketServiceImpl(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
+    public TicketServiceImpl(TicketRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public Ticket createTicket(Ticket ticket) {
-        return ticketRepository.save(ticket);
+        return repo.save(ticket);
     }
 
-    @Override
     public Ticket getTicket(Long id) {
-        return ticketRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Ticket not found with id: " + id));
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
     }
 
-    @Override
     public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
+        return repo.findAll();
+    }
+
+    public List<Ticket> getTicketsByUser(Long userId) {
+        return repo.findByCreatedBy_Id(userId);
+    }
+
+    public void deleteTicket(Long id) {
+        if (!repo.existsById(id))
+            throw new ResourceNotFoundException("Ticket not found");
+        repo.deleteById(id);
     }
 }

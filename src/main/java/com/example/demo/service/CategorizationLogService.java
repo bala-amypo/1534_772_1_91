@@ -1,27 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.model.CategorizationLog;
+
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+public interface CategorizationLogService {
 
-import com.example.demo.model.CategorizationLog;
-import com.example.demo.model.Ticket;
-import com.example.demo.repository.CategorizationLogRepository;
+    List<CategorizationLog> getLogsByTicket(Long ticketId);
 
-@Service
-public class CategorizationLogService {
-
-    private final CategorizationLogRepository logRepository;
-
-    public CategorizationLogService(CategorizationLogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
-
-    public CategorizationLog saveLog(CategorizationLog log) {
-        return logRepository.save(log);
-    }
-
-    public List<CategorizationLog> getLogsForTicket(Ticket ticket) {
-        return logRepository.findByTicket(ticket);
-    }
+    List<CategorizationLog> getLogsByRule(Long ruleId);
 }
