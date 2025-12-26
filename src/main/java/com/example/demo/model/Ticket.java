@@ -20,50 +20,90 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
-    @Column(length = 2000)
+    @Column(nullable = false, length = 2000)
     private String description;
 
     private String location;
 
-    private String status;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private User createdBy;
+    private String createdBy;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category assignedCategory;
 
-    @ManyToOne
-    @JoinColumn(name = "root_cause_id")
-    private RootCause assignedRootCause;
+    @Column(nullable = false)
+    private String urgencyLevel;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    public Ticket() {
+    }
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        if (status == null) status = "OPEN";
+        this.createdAt = LocalDateTime.now();
+        if (this.urgencyLevel == null) {
+            this.urgencyLevel = "LOW";
+        }
     }
 
-    public Ticket() {}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public User getCreatedBy() { return createdBy; }
-    public void setCreatedBy(User createdBy) { this.createdBy = createdBy; }
-    public Category getAssignedCategory() { return assignedCategory; }
-    public void setAssignedCategory(Category assignedCategory) { this.assignedCategory = assignedCategory; }
-    public RootCause getAssignedRootCause() { return assignedRootCause; }
-    public void setAssignedRootCause(RootCause assignedRootCause) { this.assignedRootCause = assignedRootCause; }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Category getAssignedCategory() {
+        return assignedCategory;
+    }
+
+    public void setAssignedCategory(Category assignedCategory) {
+        this.assignedCategory = assignedCategory;
+    }
+
+    public String getUrgencyLevel() {
+        return urgencyLevel;
+    }
+
+    public void setUrgencyLevel(String urgencyLevel) {
+        this.urgencyLevel = urgencyLevel;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

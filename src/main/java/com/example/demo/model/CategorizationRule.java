@@ -5,11 +5,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.PrePersist;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "categorization_rules")
@@ -19,33 +17,44 @@ public class CategorizationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String keyword;
 
-    private String matchType;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
+    @Column(nullable = false)
     private Integer priority;
 
-    @ManyToOne
-    @JoinColumn(name = "root_cause_id")
-    private RootCause rootCause;
-
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        if (priority == null) priority = 1;
+    public CategorizationRule() {
     }
 
-    public CategorizationRule() {}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public String getKeyword() { return keyword; }
-    public void setKeyword(String keyword) { this.keyword = keyword; }
-    public String getMatchType() { return matchType; }
-    public void setMatchType(String matchType) { this.matchType = matchType; }
-    public Integer getPriority() { return priority; }
-    public void setPriority(Integer priority) { this.priority = priority; }
-    public RootCause getRootCause() { return rootCause; }
-    public void setRootCause(RootCause rootCause) { this.rootCause = rootCause; }
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 }
