@@ -1,10 +1,11 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.RootCause;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface RootCauseRepository extends JpaRepository<RootCause, Long> {
 
-    Optional<RootCause> findByName(String name);
+    List<RootCause> findByCategory_Id(Long categoryId);
 }
