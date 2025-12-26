@@ -6,13 +6,11 @@ import java.util.List;
 
 public interface CategorizationRuleService {
 
-    CategorizationRule createRule(CategorizationRule rule);
-
-    CategorizationRule getRule(Long id);
-
     List<CategorizationRule> getAllRules();
 
-    List<CategorizationRule> getRulesByRootCause(Long rootCauseId);
+    List<CategorizationRule> getRulesByCategoryId(Long categoryId);
 
-    void deleteRule(Long id);
+    List<CategorizationRule> getRulesByKeyword(String keyword);
+
+    CategorizationRule createRule(CategorizationRule rule);
 }

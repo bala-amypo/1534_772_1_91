@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.CategorizationRule;
 import com.example.demo.repository.CategorizationRuleRepository;
 import com.example.demo.service.CategorizationRuleService;
@@ -11,32 +10,29 @@ import java.util.List;
 @Service
 public class CategorizationRuleServiceImpl implements CategorizationRuleService {
 
-    private final CategorizationRuleRepository repo;
+    private final CategorizationRuleRepository repository;
 
-    public CategorizationRuleServiceImpl(CategorizationRuleRepository repo) {
-        this.repo = repo;
+    public CategorizationRuleServiceImpl(CategorizationRuleRepository repository) {
+        this.repository = repository;
     }
 
-    public CategorizationRule createRule(CategorizationRule rule) {
-        return repo.save(rule);
-    }
-
-    public CategorizationRule getRule(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
-    }
-
+    @Override
     public List<CategorizationRule> getAllRules() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
-    public List<CategorizationRule> getRulesByRootCause(Long rootCauseId) {
-        return repo.findByRootCause_Id(rootCauseId);
+    @Override
+    public List<CategorizationRule> getRulesByCategoryId(Long categoryId) {
+        return repository.findByCategory_Id(categoryId);
     }
 
-    public void deleteRule(Long id) {
-        if (!repo.existsById(id))
-            throw new ResourceNotFoundException("Rule not found");
-        repo.deleteById(id);
+    @Override
+    public List<CategorizationRule> getRulesByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
+    }
+
+    @Override
+    public CategorizationRule createRule(CategorizationRule rule) {
+        return repository.save(rule);
     }
 }

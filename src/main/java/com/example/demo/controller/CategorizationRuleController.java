@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/rules")
+@RequestMapping("/api/categorization-rules")
 public class CategorizationRuleController {
 
     private final CategorizationRuleService service;
@@ -16,28 +16,23 @@ public class CategorizationRuleController {
         this.service = service;
     }
 
-    @PostMapping
-    public CategorizationRule create(@RequestBody CategorizationRule rule) {
-        return service.createRule(rule);
-    }
-
-    @GetMapping("/{id}")
-    public CategorizationRule get(@PathVariable Long id) {
-        return service.getRule(id);
-    }
-
     @GetMapping
-    public List<CategorizationRule> getAll() {
+    public List<CategorizationRule> getAllRules() {
         return service.getAllRules();
     }
 
-    @GetMapping("/root-cause/{rootCauseId}")
-    public List<CategorizationRule> getByRootCause(@PathVariable Long rootCauseId) {
-        return service.getRulesByRootCause(rootCauseId);
+    @GetMapping("/category/{categoryId}")
+    public List<CategorizationRule> getRulesByCategory(@PathVariable Long categoryId) {
+        return service.getRulesByCategoryId(categoryId);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteRule(id);
+    @GetMapping("/keyword/{keyword}")
+    public List<CategorizationRule> getRulesByKeyword(@PathVariable String keyword) {
+        return service.getRulesByKeyword(keyword);
+    }
+
+    @PostMapping
+    public CategorizationRule createRule(@RequestBody CategorizationRule rule) {
+        return service.createRule(rule);
     }
 }
