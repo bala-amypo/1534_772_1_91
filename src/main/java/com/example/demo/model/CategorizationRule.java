@@ -1,33 +1,32 @@
 package com.example.demo.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categorization_rules")
+@Table(name = "rules")
 public class CategorizationRule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
     private String keyword;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
-    @Column(nullable = false)
+    private String matchType;
     private Integer priority;
 
-    public CategorizationRule() {
+    @ManyToOne
+    private Category category;
+
+    @PrePersist
+    public void prePersist() {
+        if (priority == null) {
+            priority = 1;
+        }
     }
 
     public Long getId() {
@@ -42,12 +41,12 @@ public class CategorizationRule {
         this.keyword = keyword;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getMatchType() {
+        return matchType;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
     }
 
     public Integer getPriority() {
@@ -56,5 +55,13 @@ public class CategorizationRule {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
