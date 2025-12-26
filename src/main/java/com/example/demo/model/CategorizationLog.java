@@ -1,12 +1,18 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PrePersist;
+
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
+@Table(name = "categorization_logs")
 public class CategorizationLog {
 
     @Id
@@ -14,35 +20,35 @@ public class CategorizationLog {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
     @ManyToOne
-    private Category category;
+    @JoinColumn(name = "rule_id")
+    private CategorizationRule rule;
 
-    private String reason;
+    private String matchedKeyword;
+    private String assignedCategory;
+    private String assignedRootCause;
 
-    private LocalDateTime categorizedAt;
+    private LocalDateTime loggedAt;
 
     @PrePersist
-    public void prePersist() {
-        categorizedAt = LocalDateTime.now();
+    protected void onCreate() {
+        loggedAt = LocalDateTime.now();
     }
 
     public CategorizationLog() {}
 
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public Ticket getTicket() { return ticket; }
     public void setTicket(Ticket ticket) { this.ticket = ticket; }
-
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
-
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
-
-    public LocalDateTime getCategorizedAt() { return categorizedAt; }
-    public void setCategorizedAt(LocalDateTime categorizedAt) { this.categorizedAt = categorizedAt; }
+    public CategorizationRule getRule() { return rule; }
+    public void setRule(CategorizationRule rule) { this.rule = rule; }
+    public String getMatchedKeyword() { return matchedKeyword; }
+    public void setMatchedKeyword(String matchedKeyword) { this.matchedKeyword = matchedKeyword; }
+    public String getAssignedCategory() { return assignedCategory; }
+    public void setAssignedCategory(String assignedCategory) { this.assignedCategory = assignedCategory; }
+    public String getAssignedRootCause() { return assignedRootCause; }
+    public void setAssignedRootCause(String assignedRootCause) { this.assignedRootCause = assignedRootCause; }
 }

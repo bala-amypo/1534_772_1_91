@@ -1,26 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.model.CategorizationRule;
+
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+public interface CategorizationRuleService {
 
-import com.example.demo.model.CategorizationRule;
-import com.example.demo.repository.CategorizationRuleRepository;
+    CategorizationRule createRule(CategorizationRule rule);
 
-@Service
-public class CategorizationRuleService {
+    CategorizationRule getRule(Long id);
 
-    private final CategorizationRuleRepository ruleRepository;
+    List<CategorizationRule> getAllRules();
 
-    public CategorizationRuleService(CategorizationRuleRepository ruleRepository) {
-        this.ruleRepository = ruleRepository;
-    }
+    List<CategorizationRule> getRulesByRootCause(Long rootCauseId);
 
-    public CategorizationRule saveRule(CategorizationRule rule) {
-        return ruleRepository.save(rule);
-    }
-
-    public List<CategorizationRule> getAllRules() {
-        return ruleRepository.findAll();
-    }
+    void deleteRule(Long id);
 }

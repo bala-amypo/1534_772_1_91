@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.model.RootCause;
+
+import java.util.List;
 
 public interface RootCauseService {
 
@@ -11,7 +12,7 @@ public interface RootCauseService {
 
     List<RootCause> getAllRootCauses();
 
-    RootCause updateRootCause(Long id, RootCause rootCause);
+    List<RootCause> getByCategory(Long categoryId);
 
     void deleteRootCause(Long id);
 }

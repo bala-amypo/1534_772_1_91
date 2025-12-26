@@ -1,13 +1,19 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
+import jakarta.persistence.PrePersist;
+
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
+@Table(name = "ticket_comments")
 public class TicketComment {
 
     @Id
@@ -15,44 +21,30 @@ public class TicketComment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id", nullable = false)
-    @JsonIgnore
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-    @NotBlank(message = "Comment text is mandatory")
+    @ManyToOne
+    @JoinColumn(name = "commented_by")
+    private User commentedBy;
+
+    @Column(length = 1000)
     private String comment;
 
-    private String createdBy;
-
-    private LocalDateTime createdAt;
+    private LocalDateTime commentedAt;
 
     @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
+    protected void onCreate() {
+        commentedAt = LocalDateTime.now();
     }
 
     public TicketComment() {}
 
-    public TicketComment(Long id, Ticket ticket, String comment, String createdBy, LocalDateTime createdAt) {
-        this.id = id;
-        this.ticket = ticket;
-        this.comment = comment;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-    }
-
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public Ticket getTicket() { return ticket; }
     public void setTicket(Ticket ticket) { this.ticket = ticket; }
-
+    public User getCommentedBy() { return commentedBy; }
+    public void setCommentedBy(User commentedBy) { this.commentedBy = commentedBy; }
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
-
-    public String getCreatedBy() { return createdBy; }
-    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
