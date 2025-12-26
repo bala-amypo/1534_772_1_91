@@ -1,13 +1,14 @@
 package com.example.demo.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.UrgencyPolicy;
+import com.example.demo.model.User;
 
-public interface UrgencyPolicyRepository
-        extends JpaRepository<UrgencyPolicy, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<UrgencyPolicy> findByKeywordContainingIgnoreCase(String keyword);
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
