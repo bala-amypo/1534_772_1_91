@@ -5,11 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.PrePersist;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "root_causes")
@@ -19,28 +15,32 @@ public class RootCause {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String causeName;
 
+    @Column(length = 1000)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    public RootCause() {
     }
 
-    public RootCause() {}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public String getCauseName() { return causeName; }
-    public void setCauseName(String causeName) { this.causeName = causeName; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
+    public String getCauseName() {
+        return causeName;
+    }
+
+    public void setCauseName(String causeName) {
+        this.causeName = causeName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -5,9 +5,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;
 
 import java.time.LocalDateTime;
@@ -20,31 +20,56 @@ public class TicketComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
-
-    @ManyToOne
-    @JoinColumn(name = "commented_by")
-    private User commentedBy;
-
-    @Column(length = 1000)
+    @Column(nullable = false, length = 2000)
     private String comment;
 
-    private LocalDateTime commentedAt;
+    @ManyToOne
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
+
+    @Column(nullable = false)
+    private String createdBy;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    public TicketComment() {
+    }
 
     @PrePersist
     protected void onCreate() {
-        commentedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
-    public TicketComment() {}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public Ticket getTicket() { return ticket; }
-    public void setTicket(Ticket ticket) { this.ticket = ticket; }
-    public User getCommentedBy() { return commentedBy; }
-    public void setCommentedBy(User commentedBy) { this.commentedBy = commentedBy; }
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
