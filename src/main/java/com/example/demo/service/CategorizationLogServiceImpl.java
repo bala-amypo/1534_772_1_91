@@ -1,8 +1,7 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.CategorizationLog;
 import com.example.demo.repository.CategorizationLogRepository;
-import com.example.demo.service.CategorizationLogService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,23 @@ public class CategorizationLogServiceImpl implements CategorizationLogService {
         this.repo = repo;
     }
 
-    public List<CategorizationLog> getLogsByTicket(Long ticketId) {
+    @Override
+    public List<CategorizationLog> getLogsByTicketId(Long ticketId) {
         return repo.findByTicket_Id(ticketId);
     }
 
-    public List<CategorizationLog> getLogsByRule(Long ruleId) {
-        return repo.findByRule_Id(ruleId);
+    @Override
+    public List<CategorizationLog> getLogsByCategoryId(Long categoryId) {
+        return repo.findByCategory_Id(categoryId);
+    }
+
+    @Override
+    public List<CategorizationLog> getLogsByRootCauseId(Long rootCauseId) {
+        return repo.findByRootCause_Id(rootCauseId);
+    }
+
+    @Override
+    public List<CategorizationLog> getAllLogs() {
+        return repo.findAll();
     }
 }

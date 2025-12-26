@@ -6,7 +6,11 @@ import java.util.List;
 
 public interface CategorizationLogService {
 
-    List<CategorizationLog> getLogsByTicket(Long ticketId);
+    List<CategorizationLog> getLogsByTicketId(Long ticketId);
 
-    List<CategorizationLog> getLogsByRule(Long ruleId);
+    List<CategorizationLog> getLogsByCategoryId(Long categoryId);
+
+    List<CategorizationLog> getLogsByRootCauseId(Long rootCauseId);
+
+    List<CategorizationLog> getAllLogs();
 }
