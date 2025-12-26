@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PrePersist;
@@ -20,35 +21,79 @@ public class CategorizationLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "rule_id")
-    private CategorizationRule rule;
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    private String matchedKeyword;
-    private String assignedCategory;
-    private String assignedRootCause;
+    @ManyToOne
+    @JoinColumn(name = "root_cause_id")
+    private RootCause rootCause;
 
-    private LocalDateTime loggedAt;
+    @Column(nullable = false)
+    private String urgencyLevel;
+
+    @Column(nullable = false, length = 2000)
+    private String message;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    public CategorizationLog() {
+    }
 
     @PrePersist
     protected void onCreate() {
-        loggedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
-    public CategorizationLog() {}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public Ticket getTicket() { return ticket; }
-    public void setTicket(Ticket ticket) { this.ticket = ticket; }
-    public CategorizationRule getRule() { return rule; }
-    public void setRule(CategorizationRule rule) { this.rule = rule; }
-    public String getMatchedKeyword() { return matchedKeyword; }
-    public void setMatchedKeyword(String matchedKeyword) { this.matchedKeyword = matchedKeyword; }
-    public String getAssignedCategory() { return assignedCategory; }
-    public void setAssignedCategory(String assignedCategory) { this.assignedCategory = assignedCategory; }
-    public String getAssignedRootCause() { return assignedRootCause; }
-    public void setAssignedRootCause(String assignedRootCause) { this.assignedRootCause = assignedRootCause; }
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public RootCause getRootCause() {
+        return rootCause;
+    }
+
+    public void setRootCause(RootCause rootCause) {
+        this.rootCause = rootCause;
+    }
+
+    public String getUrgencyLevel() {
+        return urgencyLevel;
+    }
+
+    public void setUrgencyLevel(String urgencyLevel) {
+        this.urgencyLevel = urgencyLevel;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
