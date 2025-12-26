@@ -16,28 +16,13 @@ public class RootCauseController {
         this.service = service;
     }
 
-    @PostMapping
-    public RootCause create(@RequestBody RootCause rootCause) {
-        return service.createRootCause(rootCause);
-    }
-
-    @GetMapping("/{id}")
-    public RootCause get(@PathVariable Long id) {
-        return service.getRootCause(id);
-    }
-
     @GetMapping
-    public List<RootCause> getAll() {
+    public List<RootCause> getAllRootCauses() {
         return service.getAllRootCauses();
     }
 
-    @GetMapping("/category/{categoryId}")
-    public List<RootCause> getByCategory(@PathVariable Long categoryId) {
-        return service.getByCategory(categoryId);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteRootCause(id);
+    @PostMapping
+    public RootCause createRootCause(@RequestBody RootCause rootCause) {
+        return service.createRootCause(rootCause);
     }
 }

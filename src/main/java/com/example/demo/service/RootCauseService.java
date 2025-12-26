@@ -6,13 +6,7 @@ import java.util.List;
 
 public interface RootCauseService {
 
-    RootCause createRootCause(RootCause rootCause);
-
-    RootCause getRootCause(Long id);
-
     List<RootCause> getAllRootCauses();
 
-    List<RootCause> getByCategory(Long categoryId);
-
-    void deleteRootCause(Long id);
+    RootCause createRootCause(RootCause rootCause);
 }

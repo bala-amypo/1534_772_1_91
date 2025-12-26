@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.RootCause;
 import com.example.demo.repository.RootCauseRepository;
 import com.example.demo.service.RootCauseService;
@@ -11,32 +10,19 @@ import java.util.List;
 @Service
 public class RootCauseServiceImpl implements RootCauseService {
 
-    private final RootCauseRepository repo;
+    private final RootCauseRepository repository;
 
-    public RootCauseServiceImpl(RootCauseRepository repo) {
-        this.repo = repo;
+    public RootCauseServiceImpl(RootCauseRepository repository) {
+        this.repository = repository;
     }
 
-    public RootCause createRootCause(RootCause rootCause) {
-        return repo.save(rootCause);
-    }
-
-    public RootCause getRootCause(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Root cause not found"));
-    }
-
+    @Override
     public List<RootCause> getAllRootCauses() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
-    public List<RootCause> getByCategory(Long categoryId) {
-        return repo.findByCategory_Id(categoryId);
-    }
-
-    public void deleteRootCause(Long id) {
-        if (!repo.existsById(id))
-            throw new ResourceNotFoundException("Root cause not found");
-        repo.deleteById(id);
+    @Override
+    public RootCause createRootCause(RootCause rootCause) {
+        return repository.save(rootCause);
     }
 }
