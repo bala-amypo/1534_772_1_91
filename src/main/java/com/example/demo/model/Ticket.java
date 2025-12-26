@@ -1,14 +1,12 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
@@ -17,42 +15,32 @@ import java.time.LocalDateTime;
 public class Ticket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 2000)
+    @Column(length = 500)
     private String description;
 
-    private String location;
-
-    private String createdBy;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category assignedCategory;
-
-    @Column(nullable = false)
     private String urgencyLevel;
 
-    @Column(nullable = false)
+    @ManyToOne
+    private Category assignedCategory;
+
     private LocalDateTime createdAt;
 
-    public Ticket() {
-    }
-
     @PrePersist
-    protected void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
-        if (this.urgencyLevel == null) {
-            this.urgencyLevel = "LOW";
-        }
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -71,20 +59,12 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
+    public String getUrgencyLevel() {
+        return urgencyLevel;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setUrgencyLevel(String urgencyLevel) {
+        this.urgencyLevel = urgencyLevel;
     }
 
     public Category getAssignedCategory() {
@@ -93,14 +73,6 @@ public class Ticket {
 
     public void setAssignedCategory(Category assignedCategory) {
         this.assignedCategory = assignedCategory;
-    }
-
-    public String getUrgencyLevel() {
-        return urgencyLevel;
-    }
-
-    public void setUrgencyLevel(String urgencyLevel) {
-        this.urgencyLevel = urgencyLevel;
     }
 
     public LocalDateTime getCreatedAt() {
