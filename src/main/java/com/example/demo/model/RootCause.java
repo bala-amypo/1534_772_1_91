@@ -1,48 +1,46 @@
 package com.example.demo.model;
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PrePersist;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "root_causes")
 public class RootCause {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Root cause name is mandatory")
-    @Column(nullable = false, unique = true)
-    private String name;
+    private String causeName;
 
-    @Size(max = 2000, message = "Description cannot exceed 2000 characters")
-    @Column(length = 2000)
     private String description;
 
-    @OneToMany(mappedBy = "rootCause")
-    @JsonIgnore
-    private List<Ticket> tickets;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    public RootCause() {}
-    public RootCause(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 
+    public RootCause() {}
+
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
+    public String getCauseName() { return causeName; }
+    public void setCauseName(String causeName) { this.causeName = causeName; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-
-    public List<Ticket> getTickets() { return tickets; }
-    public void setTickets(List<Ticket> tickets) { this.tickets = tickets; }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 }

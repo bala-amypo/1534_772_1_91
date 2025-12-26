@@ -1,85 +1,69 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PrePersist;
+
 import java.time.LocalDateTime;
-import java.util.List;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "tickets")
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @Size(max = 2000, message = "Description cannot exceed 2000 characters")
     @Column(length = 2000)
     private String description;
 
     private String location;
-    private String createdBy;
+
+    private String status;
 
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category assignedCategory;
 
     @ManyToOne
-    private RootCause rootCause;
-
-    private String urgencyLevel;
+    @JoinColumn(name = "root_cause_id")
+    private RootCause assignedRootCause;
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "ticket")
-    @JsonIgnore
-    private List<TicketComment> comments;
-
     @PrePersist
-    public void prePersist() {
+    protected void onCreate() {
         createdAt = LocalDateTime.now();
-        if (urgencyLevel == null) urgencyLevel = "LOW";
+        if (status == null) status = "OPEN";
     }
 
     public Ticket() {}
 
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
-
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
-
-    public String getCreatedBy() { return createdBy; }
-    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public User getCreatedBy() { return createdBy; }
+    public void setCreatedBy(User createdBy) { this.createdBy = createdBy; }
     public Category getAssignedCategory() { return assignedCategory; }
     public void setAssignedCategory(Category assignedCategory) { this.assignedCategory = assignedCategory; }
-
-    public RootCause getRootCause() { return rootCause; }
-    public void setRootCause(RootCause rootCause) { this.rootCause = rootCause; }
-
-    public String getUrgencyLevel() { return urgencyLevel; }
-    public void setUrgencyLevel(String urgencyLevel) { this.urgencyLevel = urgencyLevel; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-
-    public List<TicketComment> getComments() { return comments; }
-    public void setComments(List<TicketComment> comments) { this.comments = comments; }
+    public RootCause getAssignedRootCause() { return assignedRootCause; }
+    public void setAssignedRootCause(RootCause assignedRootCause) { this.assignedRootCause = assignedRootCause; }
 }
