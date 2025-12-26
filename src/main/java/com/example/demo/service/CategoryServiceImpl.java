@@ -3,36 +3,21 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Category;
 import com.example.demo.repository.CategoryRepository;
-import com.example.demo.service.CategoryService;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+public class CategoryServiceImpl {
 
-@Service
-public class CategoryServiceImpl implements CategoryService {
+    private final CategoryRepository categoryRepository;
 
-    private final CategoryRepository repo;
-
-    public CategoryServiceImpl(CategoryRepository repo) {
-        this.repo = repo;
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     public Category createCategory(Category category) {
-        return repo.save(category);
+        return categoryRepository.save(category);
     }
 
     public Category getCategory(Long id) {
-        return repo.findById(id)
+        return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-    }
-
-    public List<Category> getAllCategories() {
-        return repo.findAll();
-    }
-
-    public void deleteCategory(Long id) {
-        if (!repo.existsById(id))
-            throw new ResourceNotFoundException("Category not found");
-        repo.deleteById(id);
     }
 }
