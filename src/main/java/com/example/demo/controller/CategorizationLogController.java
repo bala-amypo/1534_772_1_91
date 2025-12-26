@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/logs")
+@RequestMapping("/api/categorization-logs")
 public class CategorizationLogController {
 
     private final CategorizationLogService service;
@@ -16,13 +16,23 @@ public class CategorizationLogController {
         this.service = service;
     }
 
-    @GetMapping("/ticket/{ticketId}")
-    public List<CategorizationLog> getByTicket(@PathVariable Long ticketId) {
-        return service.getLogsByTicket(ticketId);
+    @GetMapping
+    public List<CategorizationLog> getAllLogs() {
+        return service.getAllLogs();
     }
 
-    @GetMapping("/rule/{ruleId}")
-    public List<CategorizationLog> getByRule(@PathVariable Long ruleId) {
-        return service.getLogsByRule(ruleId);
+    @GetMapping("/ticket/{ticketId}")
+    public List<CategorizationLog> getLogsByTicketId(@PathVariable Long ticketId) {
+        return service.getLogsByTicketId(ticketId);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public List<CategorizationLog> getLogsByCategoryId(@PathVariable Long categoryId) {
+        return service.getLogsByCategoryId(categoryId);
+    }
+
+    @GetMapping("/root-cause/{rootCauseId}")
+    public List<CategorizationLog> getLogsByRootCauseId(@PathVariable Long rootCauseId) {
+        return service.getLogsByRootCauseId(rootCauseId);
     }
 }
