@@ -1,34 +1,43 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.Ticket;
 import com.example.demo.service.TicketService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
 
-    private final TicketService ticketService;
+    private final TicketService service;
 
-    public TicketController(TicketService ticketService) {
-        this.ticketService = ticketService;
+    public TicketController(TicketService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> create(@RequestBody Ticket ticket) {
-        return ResponseEntity.ok(ticketService.createTicket(ticket));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Ticket>> getAll() {
-        return ResponseEntity.ok(ticketService.getAllTickets());
+    public Ticket create(@RequestBody Ticket ticket) {
+        return service.createTicket(ticket);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Ticket> get(@PathVariable Long id) {
-        return ResponseEntity.ok(ticketService.getTicket(id));
+    public Ticket get(@PathVariable Long id) {
+        return service.getTicket(id);
+    }
+
+    @GetMapping
+    public List<Ticket> getAll() {
+        return service.getAllTickets();
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Ticket> getByUser(@PathVariable Long userId) {
+        return service.getTicketsByUser(userId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteTicket(id);
     }
 }

@@ -1,29 +1,43 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.CategorizationRule;
 import com.example.demo.service.CategorizationRuleService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rules")
 public class CategorizationRuleController {
 
-    private final CategorizationRuleService ruleService;
+    private final CategorizationRuleService service;
 
-    public CategorizationRuleController(CategorizationRuleService ruleService) {
-        this.ruleService = ruleService;
+    public CategorizationRuleController(CategorizationRuleService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public CategorizationRule createRule(@RequestBody CategorizationRule rule) {
-        return ruleService.saveRule(rule);
+    public CategorizationRule create(@RequestBody CategorizationRule rule) {
+        return service.createRule(rule);
+    }
+
+    @GetMapping("/{id}")
+    public CategorizationRule get(@PathVariable Long id) {
+        return service.getRule(id);
     }
 
     @GetMapping
-    public List<CategorizationRule> getAllRules() {
-        return ruleService.getAllRules();
+    public List<CategorizationRule> getAll() {
+        return service.getAllRules();
+    }
+
+    @GetMapping("/root-cause/{rootCauseId}")
+    public List<CategorizationRule> getByRootCause(@PathVariable Long rootCauseId) {
+        return service.getRulesByRootCause(rootCauseId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteRule(id);
     }
 }

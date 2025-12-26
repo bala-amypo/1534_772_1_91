@@ -1,46 +1,43 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.RootCause;
 import com.example.demo.service.RootCauseService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/root-causes")
 public class RootCauseController {
 
-    private final RootCauseService rootCauseService;
+    private final RootCauseService service;
 
-    public RootCauseController(RootCauseService rootCauseService) {
-        this.rootCauseService = rootCauseService;
+    public RootCauseController(RootCauseService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<RootCause> create(@RequestBody RootCause rootCause) {
-        return ResponseEntity.ok(rootCauseService.createRootCause(rootCause));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<RootCause>> getAll() {
-        return ResponseEntity.ok(rootCauseService.getAllRootCauses());
+    public RootCause create(@RequestBody RootCause rootCause) {
+        return service.createRootCause(rootCause);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RootCause> get(@PathVariable Long id) {
-        return ResponseEntity.ok(rootCauseService.getRootCause(id));
+    public RootCause get(@PathVariable Long id) {
+        return service.getRootCause(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RootCause> update(@PathVariable Long id, @RequestBody RootCause rootCause) {
-        return ResponseEntity.ok(rootCauseService.updateRootCause(id, rootCause));
+    @GetMapping
+    public List<RootCause> getAll() {
+        return service.getAllRootCauses();
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public List<RootCause> getByCategory(@PathVariable Long categoryId) {
+        return service.getByCategory(categoryId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        rootCauseService.deleteRootCause(id);
-        return ResponseEntity.noContent().build();
+    public void delete(@PathVariable Long id) {
+        service.deleteRootCause(id);
     }
 }
